@@ -18,4 +18,4 @@ I'm open to collaboration on projects related to my interests. If you have an ex
 
 ## 📫 How to Reach Me
 - **Email**: aristidistsaknis@gmail.com
-- **LinkedIn**: [Aristeidis Tsaknis](https://www.linkedin.com/in/aristidis-tsaknis-923a13332/)
+- **LinkedIn**: [Aristeidis Tsaknis](https://www.linkedin.com/in/aristeidis-tsaknis-923a13332/)
