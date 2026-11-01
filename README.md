@@ -20,7 +20,7 @@ Welcome to my GitHub! I am an Electrical & Computer Engineer who specializes in 
 
 ## 📫 Let's Connect
 
-<a href="https://github.com/yalongwastaken/git-koi"><img src="koi/koi-pond.svg" width="256" align="right" alt="My pixel-art koi, redrawn every night from my GitHub activity with git-koi" /></a>
+<a href="https://github.com/yalongwastaken/git-koi"><img src="koi/koi.gif" width="256" align="right" alt="My pixel-art koi, redrawn every night from my GitHub activity with git-koi" /></a>
 
 Whether you want to discuss cloud architectures, machine learning research, or collaborate on a data-driven project, I'm always open to connecting.
 
