@@ -21,10 +21,61 @@ jobs:
         with:
           body: white
           output-dir: koi
+      - name: Make the koi circle
+        shell: bash
+        run: |
+          python3 -m pip install --user --break-system-packages --quiet pillow
+          python3 - <<'PY'
+          import base64
+          from PIL import Image, ImageFile
+
+          ImageFile.LOAD_TRUNCATED_IMAGES = True
+
+          src, out = "koi/koi.gif", "koi/koi-pond.svg"
+          im = Image.open(src)
+          size = im.size[0]
+          boxes = []
+          for i in range(im.n_frames):
+              im.seek(i)
+              box = im.convert("RGBA").getchannel("A").getbbox()
+              if box:
+                  boxes.append(box)
+          x0 = min(b[0] for b in boxes)
+          y0 = min(b[1] for b in boxes)
+          x1 = max(b[2] for b in boxes)
+          y1 = max(b[3] for b in boxes)
+          fx, fy = (x0 + x1) / 2, (y0 + y1) / 2
+          still = (x1 - x0) < size * 0.4 and (y1 - y0) < size * 0.4
+
+          with open(src, "rb") as f:
+              data = "data:image/gif;base64," + base64.b64encode(f.read()).decode()
+
+          c, r = size / 2, size * 0.32
+          if still:
+              path = f"M {c - r},{c} a {r},{r} 0 1,1 {2 * r},0 a {r},{r} 0 1,1 {-2 * r},0"
+              fish = (
+                  f'<g><image href="{data}" x="{-fx}" y="{-fy}" width="{size}" height="{size}" '
+                  f'style="image-rendering:pixelated"/>'
+                  f'<animateMotion dur="12s" repeatCount="indefinite" rotate="auto" path="{path}"/></g>'
+              )
+          else:
+              fish = (
+                  f'<image href="{data}" x="0" y="0" width="{size}" height="{size}" '
+                  f'style="image-rendering:pixelated"/>'
+              )
+
+          svg = (
+              f'<svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" '
+              f'viewBox="0 0 {size} {size}">{fish}</svg>'
+          )
+          with open(out, "w", encoding="utf-8") as f:
+              f.write(svg)
+          print("circling" if still else "swimming on its own", "->", out)
+          PY
       - name: Commit the koi if it changed
         shell: bash
         run: |
-          git add koi/koi.gif
+          git add koi/koi.gif koi/koi-pond.svg
           if git diff --cached --quiet; then
             echo "The koi is unchanged; nothing to commit."
             exit 0
